@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amuna’s birthday – make a wish & build a bouquet ♡</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Lora:ital,wght@0,400;0,500;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f0e7;--bg2:#efdcd9;--ink:#3b2428;--accent:#6b1b30;--btn:#6b1b30;--btntext:#fbf3ea;--gold:#c9a15a;--stage:#3a3a3c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a1319;--bg2:#3d1a24;--ink:#f3e6dc;--accent:#f0b8c4;--stage:#151012}}
+:root[data-theme="dark"]{--bg:#2a1319;--bg2:#3d1a24;--ink:#f3e6dc;--accent:#f0b8c4;--stage:#151012}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--stage);font-family:'Lora',Georgia,serif;color:var(--ink);display:flex;justify-content:center}
+::selection{background:#e8c4c8;color:#6b1b30}
+#app{position:relative;width:100%;max-width:430px;height:100%;overflow:hidden;background:radial-gradient(120% 80% at 50% 30%,var(--bg2) 0%,var(--bg) 70%)}
+@media (min-width:480px){#app{height:min(900px,94dvh);margin:auto;border-radius:28px;box-shadow:0 20px 60px #0008}}
+
+button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.phase{position:absolute;inset:0;padding:60px 24px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:opacity .9s,transform .9s}
+#p1{justify-content:center;gap:8px}#p1.gone{opacity:0;transform:translateY(-24px);pointer-events:none}
+#p2{overflow-y:auto;opacity:0;pointer-events:none}#p2.show{opacity:1;pointer-events:auto}
+.wish,.lead{font:400 30px/1.2 'Caveat Brush',cursive;color:var(--accent);margin:0 0 6px}
+.hint{font-size:14px;opacity:.75;margin:12px 0 0}
+#candle{background:none;border:0;padding:8px;cursor:pointer;width:min(250px,68%);border-radius:24px}
+#candle svg{width:100%;height:auto;display:block;overflow:visible}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.3s ease-in-out infinite}
+.glow{animation:breathe 2.6s ease-in-out infinite;transition:opacity 1s}
+@keyframes flick{0%,100%{transform:scale(1,1) rotate(-1.5deg)}50%{transform:scale(.93,1.07) rotate(1.5deg)}}
+@keyframes breathe{0%,100%{opacity:.85}50%{opacity:1}}
+.out .flame{animation:none;transform:scale(0);opacity:0;transition:transform .5s ease-in,opacity .5s}.out .glow{animation:none;opacity:0}
+.smoke{opacity:0;fill:none;stroke:#a08c90;stroke-width:3;stroke-linecap:round}.out .smoke{animation:smoke 2.2s ease-out .3s forwards}
+@keyframes smoke{0%{opacity:0;transform:translateY(0)}25%{opacity:.7}100%{opacity:0;transform:translateY(-46px)}}
+.btn{font:600 15px 'Lora',serif;background:var(--btn);color:var(--btntext);border:0;border-radius:999px;padding:14px 28px;cursor:pointer;box-shadow:0 6px 16px #6b1b3040}
+.btn:disabled{opacity:.7}
+.link{font:500 15px 'Lora',serif;background:none;border:1.5px solid color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent);border-radius:999px;padding:11px 24px;cursor:pointer}
+#fallback{opacity:0;visibility:hidden;transition:opacity .6s;margin-top:20px}#fallback.show{opacity:1;visibility:visible}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:9}
+.confetti i{position:absolute;width:8px;height:12px;border-radius:2px;top:44%;left:50%}
+/* bouquet */
+#bqwrap{position:sticky;top:-4px;z-index:5;width:calc(100% + 48px);margin:0 -24px;padding:2px 0 6px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px)}
+#bqwrap.final{position:static;background:none;backdrop-filter:none}
+#bq{width:min(200px,56%);height:auto;overflow:visible;transition:width .6s}#bqwrap.final #bq{width:min(260px,72%)}
+.stem{fill:none;stroke:#6b8a66;stroke-width:3.2;stroke-linecap:round;opacity:.85}
+.leaf{fill:#7d9a77;opacity:.8}
+.pop{animation:pop .5s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.paper{fill:var(--wrap,#f3dcd6);stroke:#6b1b3033;stroke-width:1.4;transition:fill .4s}
+.fold{fill:#6b1b30;opacity:.07}.seam{fill:none;stroke:#6b1b3033;stroke-width:1.2}
+.rib{fill:var(--rib,#7a2238);stroke:#00000018;stroke-width:.8;transition:fill .4s}
+.ribline{fill:none;stroke:var(--rib,#7a2238);stroke-linecap:round;transition:stroke .4s}
+.shade{fill:#000;opacity:.16}
+.sec{width:100%;margin:6px 0 10px}.sec h3{font:600 12px 'Lora',serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+.row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.chip{width:62px;background:none;border:1.5px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:14px;padding:4px 2px 5px;cursor:pointer;color:var(--ink);font:500 11px 'Lora',serif}
+.chip svg{display:block;margin:0 auto 1px}
+.chip[aria-pressed="true"],.pill[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.pill{background:none;border:1.5px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink);font:500 13px 'Lora',serif}
+.sw{width:38px;height:38px;border-radius:50%;border:2px solid #fff8;box-shadow:0 0 0 1.5px color-mix(in srgb,var(--accent) 25%,transparent);cursor:pointer}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--accent)}
+.hide{display:none!important}
+.reveal{opacity:0;transform:translateY(6px);transition:opacity .8s,transform .8s}.reveal.on{opacity:1;transform:none}
+.msg{font-size:17px;line-height:1.7;max-width:32ch;margin:8px 0 8px}.nina{font-size:14px;opacity:.85;margin:0 0 22px}
+.actions{display:flex;flex-direction:column;align-items:center;gap:14px;padding-bottom:72px}
+.bottomlink{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);text-align:center;z-index:7;pointer-events:none}
+.textlink{pointer-events:auto;background:none;border:0;padding:8px 12px;font:500 14px 'Lora',serif;color:var(--accent);text-decoration:underline;text-underline-offset:4px;cursor:pointer;opacity:.85}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <section class="phase" id="p1">
+    <p class="hint" style="margin:0 0 6px">since we can’t celebrate together, let’s…</p>
+    <p class="wish">make a wish, Amuna…</p>
+    <button id="candle" aria-label="Blow out the candle">
+      <svg viewBox="0 0 200 250" aria-hidden="true">
+        <defs><radialGradient id="g"><stop offset="0" stop-color="#ffd98a" stop-opacity=".85"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></radialGradient></defs>
+        <circle class="glow" cx="100" cy="64" r="95" fill="url(#g)"/>
+        <ellipse cx="100" cy="242" rx="60" ry="6" fill="#d9b8bc"/><rect x="93" y="222" width="14" height="20" rx="4" fill="#d9b8bc"/>
+        <ellipse cx="100" cy="222" rx="98" ry="13" fill="#e8c4c8"/><ellipse cx="100" cy="219" rx="90" ry="9" fill="#fbf3ea" opacity=".6"/>
+        <rect x="24" y="158" width="152" height="64" rx="14" fill="#7a2238"/><rect x="24" y="188" width="152" height="10" fill="#8e2b44"/>
+        <g fill="#c9a15a"><circle cx="40" cy="193" r="2.8"/><circle cx="60" cy="193" r="2.8"/><circle cx="80" cy="193" r="2.8"/><circle cx="100" cy="193" r="2.8"/><circle cx="120" cy="193" r="2.8"/><circle cx="140" cy="193" r="2.8"/><circle cx="160" cy="193" r="2.8"/></g>
+        <g fill="#fbf3ea"><rect x="24" y="154" width="152" height="10" rx="5"/><circle cx="36" cy="164" r="9"/><circle cx="52" cy="164" r="9"/><circle cx="68" cy="164" r="9"/><circle cx="84" cy="164" r="9"/><circle cx="100" cy="164" r="9"/><circle cx="116" cy="164" r="9"/><circle cx="132" cy="164" r="9"/><circle cx="148" cy="164" r="9"/><circle cx="164" cy="164" r="9"/></g>
+        <rect x="46" y="116" width="108" height="40" rx="12" fill="#e8c4c8"/>
+        <g fill="#fbf3ea"><rect x="46" y="110" width="108" height="14" rx="7"/><rect x="58" y="118" width="10" height="16" rx="5"/><rect x="84" y="118" width="10" height="22" rx="5"/><rect x="112" y="118" width="10" height="14" rx="5"/><rect x="134" y="118" width="10" height="20" rx="5"/></g>
+        <path d="M68 106q4-12 12-14M132 106q-4-12-12-14" stroke="#4f6a54" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="68" cy="112" r="7.5" fill="#a3243f"/><circle cx="132" cy="112" r="7.5" fill="#a3243f"/>
+        <rect x="94" y="72" width="12" height="44" rx="3" fill="#fbf3ea"/><path d="M94 86l12-6M94 100l12-6M94 114l12-6" stroke="#e8c4c8" stroke-width="3"/><path d="M100 72v-6" stroke="#3b2428" stroke-width="2"/>
+        <path class="smoke" d="M100 62c-8-10 8-16 0-28s8-14 2-24"/>
+        <g transform="translate(100 66)"><g class="flame"><path d="M0-34C11-18 10-4 0 3-10-4-11-18 0-34Z" fill="#ffb84d"/><path d="M0-18C5-10 5-3 0 1-5-3-5-10 0-18Z" fill="#fff1c9"/></g></g>
+      </svg>
+    </button>
+    <p class="hint">tap the candle to blow it out</p>
+    <button class="btn" id="fallback">blow out the candle</button>
+  </section>
+
+  <section class="phase" id="p2">
+    <p class="lead" id="lead">make your bouquet, Amuna ♡</p>
+    <div id="bqwrap">
+    <svg id="bq" viewBox="0 0 260 290" role="img" aria-label="Your bouquet preview">
+      <defs>
+        <filter id="wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="3" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="5"/><feGaussianBlur stdDeviation=".45"/></filter>
+        <filter id="wc2" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+        <pattern id="hearts" width="24" height="24" patternUnits="userSpaceOnUse" color="#6b1b30"><path d="M12 17c-6-3.5-7-7-4.6-9 2-1.6 4.6 0 4.6 1.8 0-1.8 2.6-3.4 4.6-1.8 2.4 2 1.4 5.5-4.6 9z" fill="currentColor" opacity=".28"/></pattern>
+        <pattern id="stripes" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(35)" color="#6b1b30"><rect width="7" height="16" fill="currentColor" opacity=".18"/></pattern>
+        <g id="rose"><circle r="24" fill="#c8344f" fill-opacity=".7"/><circle r="17" fill="#a3243f" fill-opacity=".7"/><circle r="10" fill="#8e1f37" fill-opacity=".75"/><path d="M-10 -3a10 10 0 0 1 20 0a7 7 0 0 1-14 4" stroke="#e58a9a" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/><circle cx="-6" cy="-9" r="5" fill="#f2a3b0" fill-opacity=".55"/></g>
+        <g id="tulip"><path d="M-17 -8Q-17 21 0 21Q17 21 17 -8L10 -25L0 -11L-10 -25Z" fill="#ec8fa6" fill-opacity=".72"/><path d="M0 -11Q-9 8 0 21Q9 8 0 -11Z" fill="#f8bfca" fill-opacity=".75"/><path d="M-17 -8Q-17 21 0 21" fill="none" stroke="#d9667f" stroke-width="1.5" opacity=".6"/></g>
+        <g id="daisy"></g><g id="lily"></g><g id="sakura"></g><g id="sunflower"></g><g id="lavender"></g><g id="ranunculus"></g>
+      </defs>
+      <g filter="url(#wc)"><g id="art"></g></g>
+      <g filter="url(#wc2)">
+        <path id="paper" class="paper" d="M54 162Q130 192 206 162L142 268Q130 276 118 268Z"/>
+        <path class="fold" d="M54 162L130 214L206 162L190 176L130 222L70 176Z"/>
+        <path id="over" d="M54 162Q130 192 206 162L142 268Q130 276 118 268Z" fill="none"/>
+        <path class="seam" d="M118 268L130 214L142 268"/>
+      </g>
+      <g id="r-bow">
+        <path class="rib" d="M130 208Q104 188 100 208Q104 226 130 208Z"/><path class="rib" d="M130 208Q156 188 160 208Q156 226 130 208Z"/>
+        <path class="rib" d="M128 210L112 248L124 242L130 252Z"/><path class="rib" d="M132 210L148 248L136 242L130 252Z"/>
+        <circle class="rib" cx="130" cy="208" r="7"/><circle class="shade" cx="130" cy="208" r="7"/><circle cx="127.5" cy="205.5" r="2" fill="#fff" opacity=".4"/>
+      </g>
+      <g id="r-knot" class="hide">
+        <path class="ribline" stroke-width="9" d="M86 198Q130 220 174 198"/>
+        <path class="rib" d="M126 212L108 264L117 259L121 270L133 214Z"/><path class="rib" d="M134 212L152 264L143 259L139 270L127 214Z"/>
+        <circle class="rib" cx="130" cy="209" r="9"/><circle class="shade" cx="130" cy="209" r="9"/><circle cx="127" cy="206" r="2.4" fill="#fff" opacity=".4"/>
+      </g>
+      <g id="r-twine" class="hide">
+        <path class="ribline" stroke-width="2.4" d="M90 200Q130 214 170 200"/><path class="ribline" stroke-width="2.4" d="M88 206Q130 221 172 206"/>
+        <path class="ribline" stroke-width="2" d="M130 214Q128 236 140 244"/>
+        <path class="rib" d="M130 211Q114 198 111 211Q114 224 130 211Z"/><path class="rib" d="M130 211Q146 198 149 211Q146 224 130 211Z"/><circle class="rib" cx="130" cy="211" r="4.5"/>
+        <path class="rib" d="M140 245c-9-5-10-11-6-13 3-1.6 6 .6 6 2.4 0-1.8 3-4 6-2.4 4 2 3 8-6 13z"/>
+      </g>
+    </svg>
+    </div>
+    <div id="controls" style="width:100%">
+      <div class="sec"><h3>flowers</h3><div class="row" id="flowers"></div></div>
+      <div class="sec"><h3>wrapping</h3><div class="row" id="wraps"></div><div class="row" id="wstyles"></div></div>
+      <div class="sec"><h3>ribbon</h3><div class="row" id="ribs"></div><div class="row" id="rstyles"></div></div>
+      <button class="btn" id="finish" style="margin-top:4px">finish my bouquet ♡</button>
+    </div>
+    <p class="msg reveal hide" id="msg">The world got a little brighter the day you were born. Happy birthday, Amuna ୨ৎ</p>
+    <p class="nina reveal hide" id="nina">— your vanylla</p>
+    <div class="actions reveal hide" id="actions">
+      <button class="btn" id="dl">download as a postcard ↓</button>
+      
+      <button class="link" id="back">go back to my letter ♡</button>
+    </div>
+  </section>
+  <div class="bottomlink"><button class="textlink reveal hide" id="again">experience it again</button></div>
+  <div class="confetti" id="confetti"></div>
+</div>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, NS = 'http://www.w3.org/2000/svg';
+  var $ = function(i){ return document.getElementById(i); }, bq = $('bq'), a, k;
+  var MESSAGE = 'The world got a little brighter the day you were born. Happy birthday, Amuna ୨ৎ';
+
+  /* watercolor flower shapes */
+  var D = '', L = '', S = '', U = '', V = '', R = '';
+  for(a = 0; a < 12; a++) D += '<ellipse cy="-17" rx="4.6" ry="13" fill="#fffaf2" fill-opacity=".92" stroke="#dccbb8" stroke-width=".8" transform="rotate('+a*30+')"/>';
+  D += '<circle r="7" fill="#e6b84f" fill-opacity=".9"/>';
+  var petal = 'M0 0C-9 -9 -8 -22 0 -32C8 -22 9 -9 0 0Z', streak = 'M0 -3C-1.5 -12 -1 -19 0 -25C1 -19 1.5 -12 0 -3Z';
+  [0,120,240].forEach(function(r){ L += '<path d="'+petal+'" fill="#f0bfcb" fill-opacity=".85" transform="rotate('+r+')"/><path d="'+streak+'" fill="#e07b98" fill-opacity=".6" transform="rotate('+r+')"/>'; });
+  [60,180,300].forEach(function(r){ L += '<path d="'+petal+'" fill="#fbe3e8" fill-opacity=".9" transform="rotate('+r+')"/><path d="'+streak+'" fill="#e58aa3" fill-opacity=".65" transform="rotate('+r+')"/><circle cx="1.5" cy="-14" r="1" fill="#b8506a" transform="rotate('+r+')"/><circle cx="-1.5" cy="-19" r="1" fill="#b8506a" transform="rotate('+r+')"/>'; });
+  L += '<path d="M0 0L-7 -17M0 0L3 -21M0 0L9 -15" stroke="#b9824a" stroke-width="1.4" fill="none"/><circle cx="-7" cy="-17" r="2.3" fill="#8a4a2a"/><circle cx="3" cy="-21" r="2.3" fill="#8a4a2a"/><circle cx="9" cy="-15" r="2.3" fill="#8a4a2a"/>';
+  for(a = 0; a < 5; a++) S += '<path d="M0 0C-13 -5 -15 -20 -7 -25L0 -20L7 -25C15 -20 13 -5 0 0Z" fill="#f9cfdb" fill-opacity=".85" stroke="#f0a6b8" stroke-width="1" transform="rotate('+a*72+')"/><path d="M0 -3L0 -15" stroke="#e07b98" stroke-width="1.2" opacity=".7" transform="rotate('+a*72+')"/>';
+  S += '<circle r="4" fill="#e07b98" fill-opacity=".8"/><circle r="1.6" cx="3" cy="-3" fill="#f2c14e"/><circle r="1.6" cx="-3" cy="-3" fill="#f2c14e"/>';
+  for(a = 0; a < 16; a++) U += '<ellipse cy="-21" rx="5" ry="12" fill="#f2c14e" fill-opacity=".82" transform="rotate('+a*22.5+')"/>';
+  for(a = 0; a < 16; a++) U += '<ellipse cy="-15" rx="4" ry="8" fill="#e9a93a" fill-opacity=".55" transform="rotate('+(11+a*22.5)+')"/>';
+  U += '<circle r="11" fill="#5a3a22" fill-opacity=".92"/><circle r="6" fill="#7a5230" fill-opacity=".8"/>';
+  for(a = 0; a < 6; a++){ V += '<ellipse cx="'+(a%2?3.6:-3.6)+'" cy="'+(20-a*8)+'" rx="3.8" ry="5.6" fill="'+(a%2?'#a98ab8':'#b79bc4')+'" fill-opacity=".85"/>'; }
+  V += '<ellipse cx="0" cy="-30" rx="3" ry="5" fill="#9b7bb0" fill-opacity=".85"/>';
+  for(a = 0; a < 10; a++) R += '<ellipse cy="-15" rx="9" ry="12" fill="#f6b9a4" fill-opacity=".6" transform="rotate('+a*36+')"/>';
+  for(a = 0; a < 8; a++) R += '<ellipse cy="-10" rx="7" ry="10" fill="#f19a85" fill-opacity=".6" transform="rotate('+(18+a*45)+')"/>';
+  for(a = 0; a < 6; a++) R += '<ellipse cy="-5" rx="5" ry="7" fill="#e8806c" fill-opacity=".65" transform="rotate('+a*60+')"/>';
+  R += '<circle r="3.2" fill="#d9667f" fill-opacity=".8"/>';
+  $('daisy').innerHTML = D; $('lily').innerHTML = L; $('sakura').innerHTML = S; $('sunflower').innerHTML = U; $('lavender').innerHTML = V; $('ranunculus').innerHTML = R;
+
+  var TYPES = [['rose','rose',1.05],['lily','lily',.95],['ranunculus','ranunculus',1.05],['sakura','blossom',1.05],['tulip','tulip',1.05],['daisy','daisy',1.05],['sunflower','sunflower',1],['lavender','lavender',1]];
+  var SC = {}; TYPES.forEach(function(t){ SC[t[0]] = t[2]; });
+  var WRAPS = [['blush','#f3dcd6'],['cream','#f6efe6'],['sage','#cfdcc8'],['berry','#b8465e',1],['kraft','#d9bf9d']];
+  var RIBS = [['burgundy','#7a2238'],['gold','#c9a15a'],['rose','#d9667f'],['forest','#4f6a54'],['ivory','#efe3cf']];
+  var WSTYLES = [['classic','classic'],['hearts','hearts'],['striped','stripes'],['ruffle','ruffle']], RSTYLES = [['bow','bow'],['knot','long tails'],['twine','twine']];
+  var st = {sel:['rose','lily','ranunculus'], wrap:'#f3dcd6', dark:false, ws:'classic', rib:'#7a2238', rs:'bow'};
+  var SLOTS = [[134,56,1],[92,84,.95],[176,86,.95],[58,122,.9],[210,124,.9],[106,122,1],[162,124,1],[84,152,.85],[184,152,.85],[134,98,.95]];
+  var CLASSIC = 'M54 162Q130 192 206 162L142 268Q130 276 118 268Z', RUFFLE = 'M52 164' + ' q8.5 -12 17 0'.repeat(9) + 'L142 268Q130 276 118 268Z';
+
+  function draw(){
+    var n = st.sel.length, s = '<ellipse class="leaf" cx="106" cy="170" rx="17" ry="6" transform="rotate(-35 106 170)"/><ellipse class="leaf" cx="158" cy="164" rx="17" ry="6" transform="rotate(30 158 164)"/>', h = '';
+    SLOTS.forEach(function(p, i){
+      var t = st.sel[i % n];
+      s += '<path class="stem" d="M130 215Q'+(130+p[0])/2+' '+((215+p[1])/2+12)+' '+p[0]+' '+p[1]+'"/>';
+      h += '<g transform="translate('+p[0]+' '+p[1]+') scale('+(p[2]*SC[t])+')"><g class="pop" style="animation-delay:'+i*50+'ms"><use href="#'+t+'"/></g></g>';
+    });
+    $('art').innerHTML = s + h;
+  }
+  function applyWrap(){
+    bq.style.setProperty('--wrap', st.wrap);
+    ['hearts','stripes'].forEach(function(id){ $(id).setAttribute('color', st.dark ? '#fbf3ea' : '#6b1b30'); });
+    var d = st.ws === 'ruffle' ? RUFFLE : CLASSIC; $('paper').setAttribute('d', d); $('over').setAttribute('d', d);
+    $('over').setAttribute('fill', st.ws === 'hearts' ? 'url(#hearts)' : st.ws === 'striped' ? 'url(#stripes)' : 'none');
+  }
+  function applyRib(){
+    bq.style.setProperty('--rib', st.rib);
+    ['bow','knot','twine'].forEach(function(r){ $('r-'+r).classList.toggle('hide', r !== st.rs); });
+  }
+  function chips(){
+    $('flowers').innerHTML = TYPES.map(function(t){
+      return '<button class="chip" data-t="'+t[0]+'" aria-pressed="'+(st.sel.indexOf(t[0])>-1)+'"><svg viewBox="-34 -34 68 68" width="42" height="42"><g filter="url(#wc)"><use href="#'+t[0]+'" transform="scale('+t[2]*.85+')"/></g></svg>'+t[1]+'</button>';
+    }).join('');
+  }
+  function group(id, html, onpick){
+    $(id).innerHTML = html;
+    $(id).onclick = function(e){
+      var b = e.target.closest('button'); if(!b) return; sfx.pick();
+      [].forEach.call($(id).children, function(x){ x.setAttribute('aria-pressed', x === b); }); onpick(b);
+    };
+  }
+  function swHtml(list, cur){ return list.map(function(c){ return '<button class="sw" data-c="'+c[1]+'" data-d="'+(c[2]?1:0)+'" aria-label="'+c[0]+'" aria-pressed="'+(c[1]===cur)+'" style="background:'+c[1]+'"></button>'; }).join(''); }
+  function pillHtml(list, cur){ return list.map(function(c){ return '<button class="pill" data-v="'+c[0]+'" aria-pressed="'+(c[0]===cur)+'">'+c[1]+'</button>'; }).join(''); }
+  $('flowers').onclick = function(e){
+    var b = e.target.closest('.chip'); if(!b) return; var t = b.dataset.t, i = st.sel.indexOf(t);
+    if(i > -1){ if(st.sel.length === 1) return; st.sel.splice(i, 1); } else st.sel.push(t);
+    sfx.pick(); b.setAttribute('aria-pressed', i === -1); draw();
+  };
+
+  /* sound (synthesized) */
+  var sfx = (function(){
+    var ctx, master, on = true;
+    function init(){ if(ctx){ if(ctx.state==='suspended') ctx.resume(); return ctx; } var AC = window.AudioContext||window.webkitAudioContext; if(!AC) return null; ctx = new AC(); master = ctx.createGain(); master.gain.value=.5; master.connect(ctx.destination); return ctx; }
+    function tone(f,t,d,type,v,f2){ if(!on||!init()) return; var o=ctx.createOscillator(),g=ctx.createGain(),s=ctx.currentTime+t; o.type=type||'sine'; o.frequency.setValueAtTime(f,s); if(f2) o.frequency.exponentialRampToValueAtTime(f2,s+d); g.gain.setValueAtTime(.0001,s); g.gain.exponentialRampToValueAtTime(v||.08,s+.01); g.gain.exponentialRampToValueAtTime(.0001,s+d); o.connect(g); g.connect(master); o.start(s); o.stop(s+d+.05); }
+    function noise(t,d,type,f1,f2,v){ if(!on||!init()) return; var n=Math.floor(ctx.sampleRate*d),b=ctx.createBuffer(1,n,ctx.sampleRate),a=b.getChannelData(0); for(var i=0;i<n;i++)a[i]=Math.random()*2-1; var src=ctx.createBufferSource(),fl=ctx.createBiquadFilter(),g=ctx.createGain(),s=ctx.currentTime+t; src.buffer=b; fl.type=type; fl.frequency.setValueAtTime(f1,s); fl.frequency.exponentialRampToValueAtTime(f2,s+d); g.gain.setValueAtTime(.0001,s); g.gain.exponentialRampToValueAtTime(v,s+d*.25); g.gain.exponentialRampToValueAtTime(.0001,s+d); src.connect(fl); fl.connect(g); g.connect(master); src.start(s); }
+    return {
+            tap:function(){ tone(520,0,.09,'sine',.09,420); }, pick:function(){ tone(740+Math.random()*120,0,.14,'triangle',.06); },
+      blow:function(){ noise(0,.7,'bandpass',900,250,.5); tone(180,.05,.4,'sine',.05,90); },
+      pop:function(){ noise(0,.12,'highpass',1500,3000,.35); [1046,1318,1568,2093,1760].forEach(function(f,i){ tone(f,.08+i*.09,.35,'triangle',.05); }); },
+      rustle:function(){ noise(0,.4,'highpass',2500,6000,.2); }, chime:function(){ [784,988,1175,1568].forEach(function(f,i){ tone(f,i*.12,.7,'sine',.07); }); }
+    };
+  })();
+
+  /* postcard download */
+  function svgImage(){
+    var s = bq.cloneNode(true); s.setAttribute('xmlns', NS); s.setAttribute('width', 780); s.setAttribute('height', 872); s.removeAttribute('style');
+    var css = document.createElementNS(NS, 'style');
+    css.textContent = '.hide{display:none}.stem{fill:none;stroke:#6b8a66;stroke-width:3.2;stroke-linecap:round;opacity:.85}.leaf{fill:#7d9a77;opacity:.8}.paper{fill:'+st.wrap+';stroke:#6b1b3033;stroke-width:1.4}.fold{fill:#6b1b30;opacity:.07}.seam{fill:none;stroke:#6b1b3033;stroke-width:1.2}.rib{fill:'+st.rib+';stroke:#00000018;stroke-width:.8}.ribline{fill:none;stroke:'+st.rib+';stroke-linecap:round}.shade{fill:#000;opacity:.16}';
+    s.insertBefore(css, s.firstChild);
+    var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(s));
+    return new Promise(function(res, rej){ var im = new Image(); im.onload = function(){ res(im); }; im.onerror = rej; im.src = url; });
+  }
+  function wrapText(x, t, cx, y, maxW, lh){
+    var words = t.split(' '), line = '';
+    words.forEach(function(w){ var test = line ? line + ' ' + w : w; if(x.measureText(test).width > maxW && line){ x.fillText(line, cx, y); line = w; y += lh; } else line = test; });
+    x.fillText(line, cx, y); return y;
+  }
+  async function postcard(){
+    var btn = $('dl'), old = btn.textContent; btn.disabled = true; btn.textContent = 'painting your postcard…';
+    try{
+      await Promise.all([document.fonts.load('64px "Caveat Brush"'), document.fonts.load('40px Lora')]);
+      var W = 1800, H = 1200, c = document.createElement('canvas'); c.width = W; c.height = H; var x = c.getContext('2d');
+      x.fillStyle = '#f7f0e7'; x.fillRect(0, 0, W, H);
+      var g = x.createRadialGradient(500, 560, 60, 500, 560, 720); g.addColorStop(0, '#f3d9d6'); g.addColorStop(1, 'rgba(247,240,231,0)'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+      for(var i = 0; i < 2200; i++){ x.fillStyle = 'rgba(107,27,48,' + Math.random()*.05 + ')'; x.fillRect(Math.random()*W, Math.random()*H, 2, 2); }
+      x.strokeStyle = '#6b1b30'; x.lineWidth = 4; x.strokeRect(48, 48, W-96, H-96);
+      x.lineWidth = 1.5; x.setLineDash([6, 10]); x.strokeRect(72, 72, W-144, H-144); x.setLineDash([]);
+      x.drawImage(await svgImage(), 110, 170, 780, 872);
+      x.strokeStyle = 'rgba(107,27,48,.35)'; x.lineWidth = 2; x.setLineDash([3, 10]); x.beginPath(); x.moveTo(1000, 140); x.lineTo(1000, 1060); x.stroke(); x.setLineDash([]);
+      /* stamp + postmark */
+      x.strokeStyle = '#6b1b30'; x.lineWidth = 3; x.setLineDash([8, 6]); x.strokeRect(1560, 110, 150, 185); x.setLineDash([]);
+      x.fillStyle = '#b8465e'; x.font = '84px serif'; x.textAlign = 'center'; x.fillText('♡', 1635, 230);
+      x.lineWidth = 2.5; x.beginPath(); x.arc(1460, 205, 62, 0, 7); x.stroke(); x.beginPath(); x.arc(1460, 205, 50, 0, 7); x.stroke();
+      for(i = 0; i < 4; i++){ x.beginPath(); x.moveTo(1280, 170 + i*24); x.bezierCurveTo(1330, 150 + i*24, 1370, 200 + i*24, 1400, 180 + i*24); x.stroke(); }
+      /* text */
+      x.fillStyle = '#6b1b30'; x.font = '78px "Caveat Brush", cursive'; x.textAlign = 'center'; x.fillText('for you, Amuna ♡', 1320, 420);
+      x.fillStyle = '#3b2428'; x.font = '46px Lora, "Noto Sans Bengali", "Nirmala UI", serif';
+      var y = wrapText(x, MESSAGE, 1320, 540, 620, 74);
+      x.font = 'italic 40px Lora, serif'; x.fillStyle = '#6b1b30'; x.fillText('— your vanylla', 1320, y + 100);
+      x.strokeStyle = 'rgba(107,27,48,.3)'; x.lineWidth = 2; [920, 980, 1040].forEach(function(yy){ x.beginPath(); x.moveTo(1090, yy); x.lineTo(1560, yy); x.stroke(); });
+      var blob = await new Promise(function(r){ c.toBlob(r, 'image/png'); });
+      var link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'amuna-birthday-postcard.png'; link.click();
+      setTimeout(function(){ URL.revokeObjectURL(link.href); }, 4000);
+      sfx.chime(); btn.textContent = 'saved ♡';
+    }catch(err){ btn.textContent = 'couldn’t save, try again'; }
+    setTimeout(function(){ btn.disabled = false; btn.textContent = old; }, 2200);
+  }
+
+  /* flow */
+  var run = 0, timers = [], conf = $('confetti'), p1 = $('p1'), p2 = $('p2'), candle = $('candle'), fb = $('fallback');
+  function wait(ms){ return new Promise(function(r){ timers.push(setTimeout(r, ms)); }); }
+  function confetti(){
+    if(reduce) return; sfx.pop(); var cols = ['#6b1b30','#e8c4c8','#c9a15a','#fbf3ea'];
+    for(var i = 0; i < 44; i++){
+      var el = document.createElement('i'); el.style.background = cols[i%4]; conf.appendChild(el);
+      var a = Math.random()*Math.PI*2, d = 90+Math.random()*190;
+      el.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:'translate('+Math.cos(a)*d+'px,'+(Math.sin(a)*d-70)+'px) rotate('+Math.random()*540+'deg)',opacity:1,offset:.5},{transform:'translate('+Math.cos(a)*d*1.1+'px,'+(Math.sin(a)*d+160)+'px) rotate('+Math.random()*900+'deg)',opacity:0}],{duration:1500+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)'}).onfinish = (function(n){ return function(){ n.remove(); }; })(el);
+    }
+  }
+  async function blowOut(){
+    if(candle.disabled) return; candle.disabled = true; fb.classList.remove('show'); fb.disabled = true; sfx.blow();
+    var id = ++run; p1.classList.add('out');
+    if(!reduce){ await wait(700); if(id !== run) return; confetti(); await wait(1900); if(id !== run) return; }
+    p1.classList.add('gone'); p2.classList.add('show'); draw();
+  }
+  function armFallback(){ var id = run; wait(8000).then(function(){ if(id === run && !candle.disabled) fb.classList.add('show'); }); }
+  async function finish(){
+    sfx.rustle(); $('controls').classList.add('hide'); $('bqwrap').classList.add('final'); $('lead').textContent = 'for you, Amuna ♡'; p2.scrollTop = 0;
+    ['msg','nina','actions','again'].forEach(function(i){ $(i).classList.remove('hide'); });
+    var id = ++run; sfx.chime(); await wait(900); if(id !== run) return;
+    $('msg').classList.add('on'); await wait(1200); if(id !== run) return;
+    $('nina').classList.add('on'); await wait(600); if(id !== run) return;
+    $('actions').classList.add('on'); $('again').classList.add('on'); p2.scrollTo({top:p2.scrollHeight,behavior:'smooth'});
+  }
+  function reset(){
+    run++; timers.forEach(clearTimeout); timers = []; conf.innerHTML = '';
+    ['msg','nina','actions','again'].forEach(function(i){ $(i).classList.remove('on'); $(i).classList.add('hide'); });
+    $('controls').classList.remove('hide'); $('bqwrap').classList.remove('final'); $('lead').textContent = 'make your bouquet, Amuna ♡';
+    p2.classList.remove('show'); p2.scrollTop = 0; p1.classList.remove('gone','out'); candle.disabled = false; fb.disabled = false; armFallback();
+  }
+  candle.onclick = blowOut; fb.onclick = blowOut; $('finish').onclick = finish; $('dl').onclick = postcard;
+  $('again').onclick = function(){ sfx.tap(); reset(); };
+  $('back').onclick = function(){ sfx.tap(); var b = this, o = b.textContent; b.textContent = '(returns to the envelope screen)'; setTimeout(function(){ b.textContent = o; }, 1800); };
+  chips();
+  group('wraps', swHtml(WRAPS, st.wrap), function(b){ st.wrap = b.dataset.c; st.dark = b.dataset.d === '1'; applyWrap(); });
+  group('wstyles', pillHtml(WSTYLES, st.ws), function(b){ st.ws = b.dataset.v; applyWrap(); });
+  group('ribs', swHtml(RIBS, st.rib), function(b){ st.rib = b.dataset.c; applyRib(); });
+  group('rstyles', pillHtml(RSTYLES, st.rs), function(b){ st.rs = b.dataset.v; applyRib(); });
+  applyWrap(); applyRib(); draw(); armFallback();
+  window.addEventListener('pagehide', function(){ timers.forEach(clearTimeout); });
+})();
+</script>
+</body>
+</html>
